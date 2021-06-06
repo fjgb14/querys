@@ -1,0 +1,18 @@
+<form:select path="discountCodeByDiscountCode">
+    <form:options items="${descuentos}" itemLabel="rate" />
+</form:select>
+
+    @Query("SELECT c FROM Customer c WHERE c.name LIKE CONCAT('%',:nombre, '%') OR c.microMarketByZip IN :supermercado")
+    public List<Customer> findBySimilarNameOrMicroMarket (@Param("nombre") String nombre,
+                                                          @Param("supermercado") List<MicroMarket> supermercado);
+
+    @Query("SELECT c FROM Customer c WHERE c.name LIKE CONCAT('%', :nombre, '%')")
+    public List<Customer> findBySimilarName (@Param("nombre") String nombre);
+
+    @Query("SELECT c FROM Customer c WHERE c.microMarketByZip IN :supermercado")
+    public List<Customer> findByMicroMarket (@Param("supermercado") List<MicroMarket> filtroSuper);
+
+<a href="/loquetesalgadelapolla"><button type="button">BotonWeno</button></a>
+
+@Query("SELECT DISTINCT p FROM Pelicula p JOIN p.categoriaList c WHERE c IN :categorias")
+    public List<Pelicula> findByCategoria(List<Categoria> categorias);
