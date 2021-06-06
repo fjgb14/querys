@@ -16,3 +16,15 @@
 
 @Query("SELECT DISTINCT p FROM Pelicula p JOIN p.categoriaList c WHERE c IN :categorias")
     public List<Pelicula> findByCategoria(List<Categoria> categorias);
+
+
+    @GetMapping("/")
+    public String listarPelis(@ModelAttribute("filtro") FiltroPelicula filtro, Model model) {
+        model.addAttribute("categorias", categoriaRepository.findAll());
+        if (!filtro.getCategorias().isEmpty()) {
+            model.addAttribute("pelis", peliculaRepository.findByCategorias(filtro.getCategorias()));
+        } else {
+            model.addAttribute("pelis", peliculaRepository.findAll());
+        }
+        return "index";
+    }
