@@ -28,3 +28,20 @@
         }
         return "index";
     }
+    
+    
+    @Query("SELECT distinct p from Producto p join PedidoProducto pp on pp.producto.productoId = p.productoId " +
+            "join Pedido pedido on pedido.pedidoId = pp.pedido.pedidoId where p.disponible = true and p.cantidad>=1 " +
+            "and pedido.clienteId.clienteId <> :idCliente")
+    List<Producto> productosDisponibles(@Param("idCliente") Integer idCliente);
+
+        public List<Producto> findProductosDisponibles(Integer idPedido){
+        Query q = this.em.createQuery("Select p from Producto p where p.cantidad > 0 and p.disponible=true and p not in (Select pp.producto from PedidoProducto pp where pp.pedido.pedidoId = :idPedido)");
+        q.setParameter("idPedido", idPedido);
+        List<Producto> aux = q.getResultList();
+        if(aux!=null && !aux.isEmpty()){
+            return aux;
+        }else{
+            return null;
+        }
+    }
